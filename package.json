@@ -1,0 +1,17 @@
+{
+  "name": "vestta",
+  "version": "1.0.0",
+  "description": "Vestta - Clothing store QA portfolio project",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "test:e2e": "pnpm --filter e2e test",
+    "test:api": "pnpm --filter backend test",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

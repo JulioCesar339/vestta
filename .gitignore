@@ -1,0 +1,25 @@
+# Dependencias
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Variables de entorno (contienen datos sensibles)
+.env
+.env.local
+
+# Reportes de tests
+allure-results/
+allure-report/
+
+# Playwright
+playwright-report/
+test-results/
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
