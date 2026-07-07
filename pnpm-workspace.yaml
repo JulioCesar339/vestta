@@ -3,3 +3,4 @@ packages:
   - tests/*
 allowBuilds:
   better-sqlite3: false
+  esbuild: true
