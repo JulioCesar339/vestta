@@ -23,3 +23,8 @@ test-results/
 # Editor
 .vscode/
 .idea/
+
+# Base de datos SQLite
+*.db
+*.db-shm
+*.db-wal
