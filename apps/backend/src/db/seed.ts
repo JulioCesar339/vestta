@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import db from './database.js'
+import db from './connection.js'
 
 async function seed() {
   console.log('🌱 Seeding database...')

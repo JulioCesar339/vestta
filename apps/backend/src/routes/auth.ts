@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import db from '../db/database.js'
+import db from '../db/index.js'
 import type { User } from '../types/index.js'
 
 const router = Router()
