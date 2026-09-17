@@ -14,10 +14,13 @@ api.interceptors.request.use((config) => {
 })
 
 // Interceptor: si el token expira redirige al login
+// Solo redirige si había un token guardado (sesión expirada)
+// No redirige en el login porque un 401 ahí es un error de credenciales
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const hadToken = !!localStorage.getItem('token')
+    if (error.response?.status === 401 && hadToken) {
       localStorage.removeItem('token')
       window.location.href = '/'
     }

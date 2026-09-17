@@ -33,7 +33,6 @@ export default function PaymentModal({ total, onConfirm, onCancel }: Props) {
   const [success, setSuccess] = useState(false)
 
   function handleChange(field: keyof CardForm, value: string) {
-    // Formateo automático del número de tarjeta
     if (field === 'number') {
       value = value
         .replace(/\D/g, '')
@@ -41,27 +40,21 @@ export default function PaymentModal({ total, onConfirm, onCancel }: Props) {
         .replace(/(.{4})/g, '$1 ')
         .trim()
     }
-
-    // Formateo automático de la fecha
     if (field === 'expiry') {
       value = value
         .replace(/\D/g, '')
         .slice(0, 4)
         .replace(/(.{2})/, '$1/')
     }
-
-    // Solo números en CVV
     if (field === 'cvv') {
       value = value.replace(/\D/g, '').slice(0, 3)
     }
-
     setForm((prev) => ({ ...prev, [field]: value }))
     setErrors((prev) => ({ ...prev, [field]: undefined }))
   }
 
   function validate(): boolean {
     const newErrors: CardErrors = {}
-
     if (form.number.replace(/\s/g, '').length !== 16) {
       newErrors.number = 'Número de tarjeta inválido'
     }
@@ -74,14 +67,12 @@ export default function PaymentModal({ total, onConfirm, onCancel }: Props) {
     if (form.cvv.length !== 3) {
       newErrors.cvv = 'CVV inválido'
     }
-
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
   async function handlePay() {
     if (!validate()) return
-
     setLoading(true)
     try {
       await onConfirm()
@@ -107,7 +98,6 @@ export default function PaymentModal({ total, onConfirm, onCancel }: Props) {
         ) : (
           <>
             <h2 className={styles.title}>Datos de pago</h2>
-
             <div className={styles.form}>
               <div className={styles.total}>
                 <span>Total a pagar</span>
@@ -115,8 +105,11 @@ export default function PaymentModal({ total, onConfirm, onCancel }: Props) {
               </div>
 
               <div className={styles.field}>
-                <label className={styles.label}>Número de tarjeta</label>
+                <label htmlFor="card-number" className={styles.label}>
+                  Número de tarjeta
+                </label>
                 <input
+                  id="card-number"
                   className={`${styles.input} ${errors.number ? styles.inputError : ''}`}
                   type="text"
                   placeholder="1234 5678 9012 3456"
@@ -129,8 +122,11 @@ export default function PaymentModal({ total, onConfirm, onCancel }: Props) {
               </div>
 
               <div className={styles.field}>
-                <label className={styles.label}>Nombre del titular</label>
+                <label htmlFor="card-name" className={styles.label}>
+                  Nombre del titular
+                </label>
                 <input
+                  id="card-name"
                   className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
                   type="text"
                   placeholder="Como aparece en la tarjeta"
@@ -144,8 +140,11 @@ export default function PaymentModal({ total, onConfirm, onCancel }: Props) {
 
               <div className={styles.row}>
                 <div className={styles.field}>
-                  <label className={styles.label}>Fecha de vencimiento</label>
+                  <label htmlFor="card-expiry" className={styles.label}>
+                    Fecha de vencimiento
+                  </label>
                   <input
+                    id="card-expiry"
                     className={`${styles.input} ${errors.expiry ? styles.inputError : ''}`}
                     type="text"
                     placeholder="MM/AA"
@@ -158,8 +157,11 @@ export default function PaymentModal({ total, onConfirm, onCancel }: Props) {
                 </div>
 
                 <div className={styles.field}>
-                  <label className={styles.label}>CVV</label>
+                  <label htmlFor="card-cvv" className={styles.label}>
+                    CVV
+                  </label>
                   <input
+                    id="card-cvv"
                     className={`${styles.input} ${errors.cvv ? styles.inputError : ''}`}
                     type="text"
                     placeholder="123"

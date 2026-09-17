@@ -65,7 +65,15 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && <p className={styles.error}>{error}</p>}
+          {error && (
+            <p
+              className={styles.error}
+              data-testid="login-error"
+              role="alert"
+            >
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"

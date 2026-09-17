@@ -69,7 +69,11 @@ export default function CatalogPage() {
         ) : (
           <div className={styles.grid}>
             {filtered.map((product) => (
-              <div key={product.id} className={styles.card}>
+              <div
+                key={product.id}
+                className={styles.card}
+                data-testid="product-card"
+              >
                 <img
                   src={product.image}
                   alt={product.name}
