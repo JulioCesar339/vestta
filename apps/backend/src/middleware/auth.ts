@@ -4,14 +4,12 @@ import type { JwtPayload } from '../types/index.js'
 
 const JWT_SECRET = process.env.JWT_SECRET ?? 'vestta_secret_dev'
 
-declare module 'express-serve-static-core' {
-  interface Request {
-    user?: JwtPayload
-  }
+export interface AuthRequest extends Request {
+  user?: JwtPayload
 }
 
 export function authMiddleware(
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction
 ): void {

@@ -1,14 +1,15 @@
-import { Router, Request, Response } from 'express'
+import { Response, Router } from 'express'
+import { IRouter } from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import db from '../db/index.js'
+import db from '../db/database.js'
 import type { User } from '../types/index.js'
+import type { AuthRequest } from '../middleware/auth.js'
 
-const router = Router()
+const router: IRouter = Router()
 const JWT_SECRET = process.env.JWT_SECRET ?? 'vestta_secret_dev'
 
-// POST /api/auth/login
-router.post('/login', (req: Request, res: Response): void => {
+router.post('/login', (req: AuthRequest, res: Response): void => {
   const { username, password } = req.body
 
   if (!username || !password) {
@@ -18,7 +19,7 @@ router.post('/login', (req: Request, res: Response): void => {
 
   const user = db.prepare(
     'SELECT * FROM users WHERE username = ?'
-  ).get(username) as User | undefined
+  ).get(username) as unknown as User | undefined
 
   if (!user) {
     res.status(401).json({ message: 'Credenciales incorrectas' })
