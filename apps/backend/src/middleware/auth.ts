@@ -4,12 +4,9 @@ import type { JwtPayload } from '../types/index.js'
 
 const JWT_SECRET = process.env.JWT_SECRET ?? 'vestta_secret_dev'
 
-// Extendemos Request para agregar el usuario autenticado
-declare global {
-  namespace Express {
-    interface Request {
-      user?: JwtPayload
-    }
+declare module 'express-serve-static-core' {
+  interface Request {
+    user?: JwtPayload
   }
 }
 
