@@ -36,6 +36,30 @@ jobs:
       - name: Typecheck frontend
         run: cd apps/frontend && pnpm exec tsc --noEmit
 
+  api-tests:
+    name: API Tests
+    runs-on: ubuntu-latest
+    needs: lint-and-typecheck
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Instalar dependencias
+        run: pnpm install
+
+      - name: Correr tests de API
+        run: cd apps/backend && pnpm test
+
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
@@ -60,21 +84,17 @@ jobs:
       - name: Instalar Playwright browsers
         run: cd tests/e2e && pnpm exec playwright install chromium --with-deps
 
-      - name: Compilar better-sqlite3
-        run: cd apps/backend && pnpm exec node-gyp rebuild --directory node_modules/better-sqlite3 || true
-
       - name: Seed base de datos
         run: cd apps/backend && pnpm seed
 
       - name: Arrancar backend
         run: cd apps/backend && NODE_OPTIONS='--experimental-sqlite' pnpm exec tsx src/index.ts &
-        
+
       - name: Arrancar frontend
         run: cd apps/frontend && pnpm exec vite build && pnpm exec vite preview --port 5173 &
 
       - name: Esperar servicios
-        run: |
-          npx wait-on http://localhost:3000/health http://localhost:5173 --timeout 30000
+        run: npx wait-on http://localhost:3000/health http://localhost:5173 --timeout 30000
 
       - name: Correr tests E2E
         run: cd tests/e2e && pnpm test

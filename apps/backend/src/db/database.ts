@@ -3,7 +3,9 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const DB_PATH = path.join(__dirname, '../../vestta.db')
+
+const DB_FILE = process.env.NODE_ENV === 'test' ? 'vestta.test.db' : 'vestta.db'
+const DB_PATH = path.join(__dirname, '../../', DB_FILE)
 
 const db = new DatabaseSync(DB_PATH)
 

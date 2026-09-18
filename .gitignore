@@ -28,3 +28,4 @@ test-results/
 *.db
 *.db-shm
 *.db-wal
+apps/backend/vestta.test.db
