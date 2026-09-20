@@ -29,3 +29,4 @@ test-results/
 *.db-shm
 *.db-wal
 apps/backend/vestta.test.db
+apps/auth-service/auth-service
