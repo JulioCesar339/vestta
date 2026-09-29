@@ -19,6 +19,7 @@ test.describe('Checkout', () => {
     await loginPage.goto()
     await loginPage.login('admin', 'password123')
     await page.waitForURL(/catalog/)
+    await catalogPage.waitForProducts()
   })
 
   test('debe mostrar carrito vacío al ingresar sin productos', async () => {
@@ -28,6 +29,8 @@ test.describe('Checkout', () => {
 
   test('debe mostrar productos añadidos en el carrito', async () => {
     await catalogPage.addToCart(0, 1)
+    // Esperamos a que el badge confirme que el producto fue añadido
+    await expect(catalogPage.cartBadge).toBeVisible({ timeout: 5000 })
     await cartPage.navigateToCart()
     const count = await cartPage.getItemCount()
     expect(count).toBeGreaterThan(0)
@@ -35,6 +38,7 @@ test.describe('Checkout', () => {
 
   test('debe eliminar producto del carrito', async () => {
     await catalogPage.addToCart(0, 1)
+    await expect(catalogPage.cartBadge).toBeVisible({ timeout: 5000 })
     await cartPage.navigateToCart()
     await cartPage.removeItem(0)
     await expect(cartPage.emptyMessage).toBeVisible()
@@ -42,6 +46,7 @@ test.describe('Checkout', () => {
 
   test('debe abrir modal de pago al hacer click en Pagar', async ({ page }) => {
     await catalogPage.addToCart(0, 1)
+    await expect(catalogPage.cartBadge).toBeVisible({ timeout: 5000 })
     await cartPage.navigateToCart()
     await cartPage.clickCheckout()
     await expect(page.getByText('Datos de pago')).toBeVisible()
@@ -49,6 +54,7 @@ test.describe('Checkout', () => {
 
   test('debe mostrar errores con campos de tarjeta vacíos', async ({ page }) => {
     await catalogPage.addToCart(0, 1)
+    await expect(catalogPage.cartBadge).toBeVisible({ timeout: 5000 })
     await cartPage.navigateToCart()
     await cartPage.clickCheckout()
     await paymentModal.confirm()
@@ -57,6 +63,7 @@ test.describe('Checkout', () => {
 
   test('debe completar el pago con datos válidos', async () => {
     await catalogPage.addToCart(0, 1)
+    await expect(catalogPage.cartBadge).toBeVisible({ timeout: 5000 })
     await cartPage.navigateToCart()
     await cartPage.clickCheckout()
     await paymentModal.fillCard(
@@ -72,6 +79,7 @@ test.describe('Checkout', () => {
 
   test('debe regresar al catálogo después del pago exitoso', async ({ page }) => {
     await catalogPage.addToCart(0, 1)
+    await expect(catalogPage.cartBadge).toBeVisible({ timeout: 5000 })
     await cartPage.navigateToCart()
     await cartPage.clickCheckout()
     await paymentModal.fillCard(
@@ -87,6 +95,7 @@ test.describe('Checkout', () => {
 
   test('debe vaciar el carrito después del pago', async ({ page }) => {
     await catalogPage.addToCart(0, 1)
+    await expect(catalogPage.cartBadge).toBeVisible({ timeout: 5000 })
     await cartPage.navigateToCart()
     await cartPage.clickCheckout()
     await paymentModal.fillCard(
