@@ -20,6 +20,7 @@ export class CartPage {
   async navigateToCart() {
     await this.page.getByRole('button', { name: 'Carrito' }).click()
     await this.page.waitForURL(/cart/)
+    await this.page.waitForLoadState('networkidle')
   }
 
   async goto() {
