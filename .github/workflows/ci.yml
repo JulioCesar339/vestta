@@ -9,7 +9,7 @@ on:
 jobs:
   lint-and-typecheck:
     name: Lint & Typecheck
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
 
   api-tests:
     name: API Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: lint-and-typecheck
     steps:
       - name: Checkout código
@@ -62,7 +62,7 @@ jobs:
 
   e2e-tests:
     name: E2E Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: lint-and-typecheck
     steps:
       - name: Checkout código
